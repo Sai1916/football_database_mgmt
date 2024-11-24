@@ -1,28 +1,30 @@
 "use client";
 
-import CustomForm from "@/components/CustomForm";
+// import CustomForm from "@/components/CustomForm";
 import Header from "@/components/Header";
 import Modal from "@/components/Modal";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { Team } from "../../../../typings";
 
 const Main = () => {
   const pathName = usePathname();
   const path = pathName.split("/")[2];
 
-  const [teams, setTeams] = useState([]);
+  const [teams, setTeams] = useState<Team[]>([]);
 
-  const [enteredFormData, SetEnteredFormData] = useState({
-    name: "",
-    est_year: "",
-    coach_name: "",
-    home_city: "",
-  });
+  // const [enteredFormData, SetEnteredFormData] = useState({
+  //   name: "",
+  //   est_year: "",
+  //   coach_name: "",
+  //   home_city: "",
+  // });
+  // console.log(enteredFormData);
 
-  const handleCreate = () => {
-    console.log("Create operation triggered");
-    // Add logic to create a record
-  };
+  // const handleCreate = () => {
+  //   console.log("Create operation triggered");
+  //   // Add logic to create a record
+  // };
 
   const handleRead = async () => {
     console.log("Read operation triggered");
@@ -86,8 +88,9 @@ const Main = () => {
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
         >
-          <CustomForm  handleCreate={handleCreate}
-            SetEnteredFormData={SetEnteredFormData}/>
+          {/* <CustomForm  handleCreate={handleCreate}
+            SetEnteredFormData={SetEnteredFormData}/> */}
+            <></>
         </Modal>
 
         {teams.length > 0 && (

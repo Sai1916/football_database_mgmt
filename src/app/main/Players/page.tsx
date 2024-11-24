@@ -1,75 +1,76 @@
 "use client";
 
-import CustomForm from "@/components/CustomForm";
+// import CustomForm from "@/components/CustomForm";
 import Header from "@/components/Header";
 import Modal from "@/components/Modal";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import { Player } from "../../../../typings";
 
 const Main = () => {
   const pathName = usePathname();
   const path = pathName.split("/")[2];
 
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState<Player[]>([]);
 
-  const [enteredFormData, SetEnteredFormData] = useState({
-    name: "",
-    age: "",
-    nationality: "",
-    position: "",
-    teamId: "",
-  });
+  // const [enteredFormData, SetEnteredFormData] = useState({
+  //   name: "",
+  //   age: "",
+  //   nationality: "",
+  //   position: "",
+  //   teamId: "",
+  // });
 
-  const [responseMessage, setResponseMessage] = useState("");
+  // const [responseMessage, setResponseMessage] = useState("");
 
-  const handleCreate = async () => {
-    console.log("Create operation triggered", enteredFormData);
+  // const handleCreate = async () => {
+  //   console.log("Create operation triggered", enteredFormData);
 
-    if (!enteredFormData.name || !enteredFormData.teamId) {
-      toast.error("Please fill all required fields");
-      return;
-    }
+  //   if (!enteredFormData.name || !enteredFormData.teamId) {
+  //     toast.error("Please fill all required fields");
+  //     return;
+  //   }
 
-    try {
-      const response = await fetch("/api/players/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(enteredFormData),
-      });
+  //   try {
+  //     const response = await fetch("/api/players/create", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(enteredFormData),
+  //     });
 
-      console.log("response ", response);
+  //     console.log("response ", response);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
 
-      // Check if the response has a body before parsing
-      const data = response.headers
-        .get("Content-Type")
-        ?.includes("application/json")
-        ? await response.json()
-        : {};
+  //     // Check if the response has a body before parsing
+  //     const data = response.headers
+  //       .get("Content-Type")
+  //       ?.includes("application/json")
+  //       ? await response.json()
+  //       : {};
 
-      console.log("response, data: " + data);
-      setResponseMessage(data.message);
-      SetEnteredFormData({
-        name: "",
-        age: "",
-        nationality: "",
-        position: "",
-        teamId: "",
-      });
-    } catch (error) {
-      console.log("Error creating item:", error);
-      setResponseMessage("Failed to create item");
-    } finally {
-      toast(responseMessage);
-      handleRead();
-    }
-  };
+  //     console.log("response, data: " + data);
+  //     setResponseMessage(data.message);
+  //     SetEnteredFormData({
+  //       name: "",
+  //       age: "",
+  //       nationality: "",
+  //       position: "",
+  //       teamId: "",
+  //     });
+  //   } catch (error) {
+  //     console.log("Error creating item:", error);
+  //     setResponseMessage("Failed to create item");
+  //   } finally {
+  //     toast(responseMessage);
+  //     handleRead();
+  //   }
+  // };
 
   const handleRead = async () => {
     console.log("Read operation triggered");
@@ -133,10 +134,11 @@ const Main = () => {
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
         >
-          <CustomForm
+          {/* <CustomForm
             handleCreate={handleCreate}
             SetEnteredFormData={SetEnteredFormData}
-          />
+          /> */}
+          <></>
         </Modal>
 
         {players.length > 0 && (
