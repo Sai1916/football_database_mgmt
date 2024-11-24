@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model players {
+  player_id   Int           @id @default(autoincrement())
+  player_name String        @db.VarChar(255)
+  age         Int?
+  nationality String?       @db.VarChar(255)
+  position    String?       @db.VarChar(255)
+  team_id     Int?
+  teams       teams?        @relation(fields: [team_id], references: [team_id], onDelete: NoAction, onUpdate: NoAction)
+  playerstats playerstats[]
+}
+
+model teams {
+  team_id                          Int           @id
+  team_name                        String?       @db.VarChar(255)
+  established_year                 Int?
+  coach_name                       String?       @db.VarChar(255)
+  home_city                        String?       @db.VarChar(255)
+  matches_matches_team_id_aToteams matches[]     @relation("matches_team_id_aToteams")
+  matches_matches_team_id_bToteams matches[]     @relation("matches_team_id_bToteams")
+  players                          players[]
+  tournaments                      tournaments[]
+}
+
+model matches {
+  match_id                       Int       @id @default(autoincrement())
+  match_date                     DateTime? @db.Date
+  location                       String?   @db.VarChar(255)
+  team_id_a                      Int?
+  team_id_b                      Int?
+  score_a                        Int?      @default(0)
+  score_b                        Int?      @default(0)
+  match_attendance               Int?
+  teams_matches_team_id_aToteams teams?    @relation("matches_team_id_aToteams", fields: [team_id_a], references: [team_id], onDelete: NoAction, onUpdate: NoAction)
+  teams_matches_team_id_bToteams teams?    @relation("matches_team_id_bToteams", fields: [team_id_b], references: [team_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tournaments {
+  tournament_id         Int       @id @default(autoincrement())
+  tournament_name       String    @db.VarChar(255)
+  tournament_start_date DateTime? @db.Date
+  tournament_end_date   DateTime? @db.Date
+  winner_team_id        Int?
+  teams                 teams?    @relation(fields: [winner_team_id], references: [team_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model venues {
+  venue_id   Int    @id @default(autoincrement())
+  venue_name String @db.VarChar(255)
+  capacity   Int?
+}
+
+model items {
+  item_id        Int      @id @default(autoincrement())
+  item_name      String   @db.VarChar(255)
+  price          Decimal? @db.Decimal(10, 2)
+  stock_quantity Int?     @default(0)
+}
+
+model playerstats {
+  stats_id       Int      @id @default(autoincrement())
+  player_id      Int?
+  matches_played Int?     @default(0)
+  goals          Int?     @default(0)
+  players        players? @relation(fields: [player_id], references: [player_id], onDelete: NoAction, onUpdate: NoAction)
+}
